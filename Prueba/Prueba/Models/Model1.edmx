@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="empleadosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EMPLEADOS">
+          <Key>
+            <PropertyRef Name="ID_EMPLEADOS" />
+          </Key>
+          <Property Name="ID_EMPLEADOS" Type="int" Nullable="false" />
+          <Property Name="ID_MAQUINARIA" Type="int" Nullable="false" />
+          <Property Name="NOMBRE" Type="char" MaxLength="150" />
+          <Property Name="CARGO" Type="char" MaxLength="150" />
+          <Property Name="CEDULA" Type="int" />
+          <Property Name="AREA" Type="char" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="MAQUINARIA">
+          <Key>
+            <PropertyRef Name="ID_MAQUINARIA" />
+          </Key>
+          <Property Name="ID_MAQUINARIA" Type="int" Nullable="false" />
+          <Property Name="SERIE_" Type="char" MaxLength="150" />
+          <Property Name="DESCRIPCION" Type="char" MaxLength="150" />
+          <Property Name="ESTADO" Type="bit" />
+        </EntityType>
+        <Association Name="FK_EMPLEADO_MAQUINARI_MAQUINAR">
+          <End Role="MAQUINARIA" Type="Self.MAQUINARIA" Multiplicity="1" />
+          <End Role="EMPLEADOS" Type="Self.EMPLEADOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MAQUINARIA">
+              <PropertyRef Name="ID_MAQUINARIA" />
+            </Principal>
+            <Dependent Role="EMPLEADOS">
+              <PropertyRef Name="ID_MAQUINARIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="empleadosModelStoreContainer">
+          <EntitySet Name="EMPLEADOS" EntityType="Self.EMPLEADOS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MAQUINARIA" EntityType="Self.MAQUINARIA" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_EMPLEADO_MAQUINARI_MAQUINAR" Association="Self.FK_EMPLEADO_MAQUINARI_MAQUINAR">
+            <End Role="MAQUINARIA" EntitySet="MAQUINARIA" />
+            <End Role="EMPLEADOS" EntitySet="EMPLEADOS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="empleadosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="EMPLEADOS">
+          <Key>
+            <PropertyRef Name="ID_EMPLEADOS" />
+          </Key>
+          <Property Name="ID_EMPLEADOS" Type="Int32" Nullable="false" />
+          <Property Name="ID_MAQUINARIA" Type="Int32" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="150" FixedLength="true" Unicode="false" />
+          <Property Name="CARGO" Type="String" MaxLength="150" FixedLength="true" Unicode="false" />
+          <Property Name="CEDULA" Type="Int32" />
+          <Property Name="AREA" Type="String" MaxLength="150" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="MAQUINARIA" Relationship="Self.FK_EMPLEADO_MAQUINARI_MAQUINAR" FromRole="EMPLEADOS" ToRole="MAQUINARIA" />
+        </EntityType>
+        <EntityType Name="MAQUINARIA">
+          <Key>
+            <PropertyRef Name="ID_MAQUINARIA" />
+          </Key>
+          <Property Name="ID_MAQUINARIA" Type="Int32" Nullable="false" />
+          <Property Name="SERIE_" Type="String" MaxLength="150" FixedLength="true" Unicode="false" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="150" FixedLength="true" Unicode="false" />
+          <Property Name="ESTADO" Type="Boolean" />
+          <NavigationProperty Name="EMPLEADOS" Relationship="Self.FK_EMPLEADO_MAQUINARI_MAQUINAR" FromRole="MAQUINARIA" ToRole="EMPLEADOS" />
+        </EntityType>
+        <Association Name="FK_EMPLEADO_MAQUINARI_MAQUINAR">
+          <End Role="MAQUINARIA" Type="Self.MAQUINARIA" Multiplicity="1" />
+          <End Role="EMPLEADOS" Type="Self.EMPLEADOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MAQUINARIA">
+              <PropertyRef Name="ID_MAQUINARIA" />
+            </Principal>
+            <Dependent Role="EMPLEADOS">
+              <PropertyRef Name="ID_MAQUINARIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbEmpleados" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EMPLEADOS" EntityType="Self.EMPLEADOS" />
+          <EntitySet Name="MAQUINARIA" EntityType="Self.MAQUINARIA" />
+          <AssociationSet Name="FK_EMPLEADO_MAQUINARI_MAQUINAR" Association="Self.FK_EMPLEADO_MAQUINARI_MAQUINAR">
+            <End Role="MAQUINARIA" EntitySet="MAQUINARIA" />
+            <End Role="EMPLEADOS" EntitySet="EMPLEADOS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="empleadosModelStoreContainer" CdmEntityContainer="DbEmpleados">
+          <EntitySetMapping Name="EMPLEADOS">
+            <EntityTypeMapping TypeName="empleadosModel.EMPLEADOS">
+              <MappingFragment StoreEntitySet="EMPLEADOS">
+                <ScalarProperty Name="ID_EMPLEADOS" ColumnName="ID_EMPLEADOS" />
+                <ScalarProperty Name="ID_MAQUINARIA" ColumnName="ID_MAQUINARIA" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="CARGO" ColumnName="CARGO" />
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="AREA" ColumnName="AREA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MAQUINARIA">
+            <EntityTypeMapping TypeName="empleadosModel.MAQUINARIA">
+              <MappingFragment StoreEntitySet="MAQUINARIA">
+                <ScalarProperty Name="ID_MAQUINARIA" ColumnName="ID_MAQUINARIA" />
+                <ScalarProperty Name="SERIE_" ColumnName="SERIE_" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
